@@ -15,6 +15,7 @@
   "scripts": {
     "build": "tsdown",
     "dev": "tsdown --watch",
+    "prepublishOnly": "pnpm run build",
     "test": "vitest",
     "coverage": "vitest run --coverage --coverage.provider=istanbul",
     "lint:package": "publint run --strict --pack false",
@@ -36,6 +37,10 @@
       "types": "./dist/index.d.mts",
       "default": "./dist/index.mjs"
     }
+  },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
   },
   "packageManager": "pnpm@10.32.1",
   "devDependencies": {
