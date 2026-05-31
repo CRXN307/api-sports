@@ -22,18 +22,18 @@ pnpm add bottleneck
 pnpm add -D @types/bottleneck
 ```
 
-### Pro plan (10 req/min)
+### Pro plan (300 req/min)
 
 ```ts
 import Bottleneck from "bottleneck"
 import { ApiSports } from "api-sports"
 
 const limiter = new Bottleneck({
-  reservoir: 10,               // start with 10 requests
-  reservoirRefillAmount: 10,   // refill 10 every minute
-  reservoirRefillInterval: 60_000,
+  reservoir: 300,                // start with 300 requests
+  reservoirRefreshAmount: 300,   // refill 300 every minute
+  reservoirRefreshInterval: 60_000,
   maxConcurrent: 1,
-  minTime: 100,                // minimum 100 ms between requests
+  minTime: 200,                  // minimum 200 ms between requests
 })
 
 const client = ApiSports({
@@ -88,11 +88,11 @@ import Bottleneck from "bottleneck"
 import { ApiSports, ApiSportsError } from "api-sports"
 
 const limiter = new Bottleneck({
-  reservoir: 10,
-  reservoirRefillAmount: 10,
-  reservoirRefillInterval: 60_000,
+  reservoir: 300,
+  reservoirRefreshAmount: 300,
+  reservoirRefreshInterval: 60_000,
   maxConcurrent: 1,
-  minTime: 100,
+  minTime: 200,
 })
 
 const client = ApiSports({
