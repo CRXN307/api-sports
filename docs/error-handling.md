@@ -50,7 +50,7 @@ try {
 The API returns HTTP 429 with an `errors` object:
 
 ```json
-{ "errors": { "rateLimit": "Too many requests. Your rate limit is 10 requests per minute." } }
+{ "errors": { "rateLimit": "Too many requests. You have exceeded the limit of requests per minute of your subscription." } }
 ```
 
 `err.errors` will be `{ rateLimit: "Too many requests..." }` and `err.code` will be `"RATE_LIMIT_EXCEEDED"`.
