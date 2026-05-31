@@ -2,6 +2,69 @@
 
 support: [https://dashboard.api-football.com](mailto:https://dashboard.api-football.com) URL: [https://www.api-football.com](https://www.api-football.com/)
 
+## Authentication
+
+We uses API keys to allow access to the API. You can register a new API key in our [dashboard](https://dashboard.api-football.com/register).
+
+**API-SPORTS**: [https://v3.football.api-sports.io/](https://v3.football.api-sports.io/)
+
+Our API expects for the API key to be included in all API requests to the server in a header that looks like the following:
+
+> Make sure to replace `XxXxXxXxXxXxXxXxXxXxXxXx` with your API key.
+
+**REQUESTS HEADERS & CORS**
+
+The API is configured to work only with **GET** requests and allows only the headers listed below:
+
+-   `x-apisports-key`
+
+If you make non-GET requests or add headers that are not in the list, you will receive an error from the API.
+
+Some frameworks *(especially in JS, nodeJS..)* automatically add extra headers, you have to make sure to remove them in order to get a response from the API.
+
+## API-SPORTS Account
+
+If you decided to subscribe directly on our site, you have a dashboard at your disposal at the following url: [dashboard](https://dashboard.api-football.com/register)
+
+It allows you to:
+
+-   To follow your consumption in real time
+-   Manage your subscription and change it if necessary
+-   Check the status of our servers
+-   Test all endpoints without writing a line of code.
+
+You can also consult all this information directly through the API by calling the endpoint `status`.
+
+> This call does not count against the daily quota.
+
+```json
+get("https://v3.football.api-sports.io/status");
+
+// response
+{
+    "get": "status",
+    "parameters": [],
+    "errors": [],
+    "results": 1,
+    "response": {
+        "account": {
+            "firstname": "xxxx",
+            "lastname": "XXXXXX",
+            "email": "xxx@xxx.com"
+        },
+        "subscription": {
+            "plan": "Free",
+            "end": "2020-04-10T23:24:27+00:00",
+            "active": true
+        },
+        "requests": {
+            "current": 12,
+            "limit_day": 100
+        }
+    }
+}
+```
+
 ## Introduction
 
 Welcome to Api-Football! You can use our API to access all API endpoints, which can get information about Football Leagues & Cups.
