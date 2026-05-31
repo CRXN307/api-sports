@@ -45,3 +45,10 @@ This is the api-sports repository - a TypeScript client for api-sports.io APIs, 
 - `API-FOOTBALL.md` - Full documentation for the Football API (endpoints, parameters, response types). Read this when working on `src/sports/football.ts`.
 
 When adding a new sport module, check if a corresponding `API-{SPORT}.md` documentation file exists and use it as the source of truth for endpoints and response types.
+
+## Branching Strategy
+
+- `main` — stable branch, published to npm. Never commit directly.
+- `feat/name` — new features (e.g. `feat/football-client`)
+- `fix/name` — bug fixes (e.g. `fix/auth-header`)
+- `chore/name` — tooling, config (e.g. `chore/setup-vitest`)
