@@ -83,7 +83,7 @@ fetch: (url, init) =>
 For cron jobs that batch many requests in a single invocation, Bottleneck in module scope works correctly because the process stays alive for the duration of the job:
 
 ```ts
-// api/cron/fixtures.ts
+// api/cron/fixtures/routes.ts
 import Bottleneck from "bottleneck"
 import { ApiSports, ApiSportsError } from "api-sports"
 
