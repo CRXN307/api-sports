@@ -1,5 +1,11 @@
 # @crxn307/api-sports
 
+## 1.0.3
+
+### Patch Changes
+
+- fix: seasons field in FootballLeaguesRespone typed as array
+
 ## 1.0.2
 
 ### Patch Changes
