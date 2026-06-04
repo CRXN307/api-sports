@@ -33,7 +33,7 @@ export type FootballLeaguesResponse = {
       predictions: boolean;
       odds: boolean;
     };
-  };
+  }[];
 }[];
 
 export type GetLeaguesParams = {
