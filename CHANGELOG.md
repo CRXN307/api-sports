@@ -1,5 +1,11 @@
 # @crxn307/api-sports
 
+## 1.0.4
+
+### Patch Changes
+
+- fix: re-export endpoint param/response types from the package entry point so consumers can import them
+
 ## 1.0.3
 
 ### Patch Changes
