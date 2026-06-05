@@ -19,20 +19,20 @@ export type FootballLeaguesResponse = {
     current: boolean;
     coverage: {
       fixtures: {
-        events: boolean;
-        lineups: boolean;
-        statistics_fixtures: boolean;
-        statistics_players: boolean;
+        events: boolean | null;
+        lineups: boolean | null;
+        statistics_fixtures: boolean | null;
+        statistics_players: boolean | null;
       };
-      standings: boolean;
-      players: boolean;
-      top_scorers: boolean;
-      top_assists: boolean;
-      top_cards: boolean;
-      injuries: boolean;
-      predictions: boolean;
-      odds: boolean;
-    };
+      standings: boolean | null;
+      players: boolean | null;
+      top_scorers: boolean | null;
+      top_assists: boolean | null;
+      top_cards: boolean | null;
+      injuries: boolean | null;
+      predictions: boolean | null;
+      odds: boolean | null;
+    } | null;
   }[];
 }[];
 
