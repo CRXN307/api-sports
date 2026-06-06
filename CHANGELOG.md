@@ -1,5 +1,13 @@
 # @crxn307/api-sports
 
+## 1.1.0
+
+### Minor Changes
+
+- Restructure football types into a dedicated `types/` directory.
+
+  All football endpoint types are now exported from `@crxn307/api-sports` directly and follow a consistent naming pattern (`FootballXxxResponse`, `GetFootballXxxParams`). Added JSDoc with examples to all football endpoint functions and core client modules.
+
 ## 1.0.4
 
 ### Patch Changes
