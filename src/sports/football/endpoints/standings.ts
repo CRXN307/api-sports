@@ -1,71 +1,34 @@
 import type { HttpClient } from "@/types";
 
-export type FootballStandingsResponse = {
-  league: {
-    id: number;
-    name: string;
-    country: string;
-    logo: string;
-    flag: string | null;
-    season: number;
-    standings: {
-      rank: number;
-      team: {
-        id: number;
-        name: string;
-        logo: string;
-      };
-      points: number;
-      goalsDiff: number;
-      group: string;
-      form: string | null;
-      status: string;
-      description: string | null;
-      all: {
-        played: number;
-        win: number;
-        draw: number;
-        lose: number;
-        goals: {
-          for: number;
-          against: number;
-        };
-      };
-      home: {
-        played: number;
-        win: number;
-        draw: number;
-        lose: number;
-        goals: {
-          for: number;
-          against: number;
-        };
-      };
-      away: {
-        played: number;
-        win: number;
-        draw: number;
-        lose: number;
-        goals: {
-          for: number;
-          against: number;
-        };
-      };
-      update: string;
-    }[][];
-  };
-}[];
+import type {
+	FootballStandingsResponse,
+	GetFootballStandingsParams,
+} from "../types/standings";
 
-export type GetStandingsParams = {
-  season: number;
-  league?: number;
-  team?: number;
-};
-
+/**
+ * Returns standings for a league or team.
+ *
+ * Some competitions have multiple ranking groups (e.g. group phase, opening/closing).
+ * The `standings` field is a 2D array — each inner array is one ranking group.
+ * `season` is required; `league` or `team` must also be provided.
+ *
+ * **Recommended calls:** 1 per hour for leagues/teams with a fixture in progress, otherwise 1 per day.
+ *
+ * @param params.season - Season year, 4 digits (required, e.g. `2023`)
+ * @param params.league - The league id
+ * @param params.team - The team id
+ *
+ * @example
+ * ```ts
+ * const client = ApiSports({ apiKey: "..." });
+ * const { response } = await client.football.getStandings({ league: 39, season: 2023 });
+ * // response: [{ league: { id: 39, standings: [[{ rank: 1, team: {...}, points: 70, ... }]] } }]
+ * ```
+ */
 export function getStandings(
-  client: HttpClient,
-  baseUrl: string,
-  params: GetStandingsParams,
+	client: HttpClient,
+	baseUrl: string,
+	params: GetFootballStandingsParams,
 ) {
-  return client.get<FootballStandingsResponse>(baseUrl, "standings", params);
+	return client.get<FootballStandingsResponse[]>(baseUrl, "standings", params);
 }

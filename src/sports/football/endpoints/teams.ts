@@ -1,369 +1,123 @@
 import type { HttpClient } from "@/types";
 
-export type FootballTeamsResponse = {
-  team: {
-    id: number;
-    name: string;
-    code: string | null;
-    country: string;
-    founded: string | null;
-    national: boolean;
-    logo: string;
-  };
-  venue: {
-    id: number;
-    name: string;
-    address: string | null;
-    city: string | null;
-    capacity: number | null;
-    surface: string | null;
-    image: string | null;
-  };
-}[];
+import type { FootballCountriesResponse } from "../types/countries";
+import type {
+	FootballTeamResponse,
+	FootballTeamSeasonsResponse,
+	FootballTeamsStatisticsResponse,
+	GetFootballTeamSeasonsParams,
+	GetFootballTeamStatisticsParams,
+	GetFootballTeamsParams,
+} from "../types/teams";
 
-export type GetTeamsParams = {
-  id?: number;
-  name?: string;
-  league?: number;
-  season?: number;
-  country?: string;
-  code?: string;
-  venue?: number;
-  search?: string;
-};
-
+/**
+ * Returns teams with their home venue.
+ *
+ * **At least one parameter is required.**
+ * Team IDs are unique and stable across all leagues and seasons.
+ * Team logos are available at `https://media.api-sports.io/football/teams/{id}.png`.
+ * All parameters can be combined.
+ *
+ * **Recommended calls:** 1 per day.
+ *
+ * @param params.id - The team id
+ * @param params.name - The team name (e.g. `"manchester united"`)
+ * @param params.league - Filter by league id
+ * @param params.season - Season year, 4 digits (e.g. `2023`) — use with `league`
+ * @param params.country - The country name of the team (e.g. `"england"`)
+ * @param params.code - The team code, exactly 3 chars (e.g. `"MUN"`)
+ * @param params.venue - Filter by venue id
+ * @param params.search - Search by name or country, min 3 chars
+ *
+ * @example
+ * ```ts
+ * const client = ApiSports({ apiKey: "..." });
+ * const { response } = await client.football.getTeams({ league: 39, season: 2023 });
+ * // response: [{ team: { id: 33, name: "Manchester United", ... }, venue: { ... } }]
+ * ```
+ */
 export function getTeams(
-  client: HttpClient,
-  baseUrl: string,
-  params?: GetTeamsParams,
+	client: HttpClient,
+	baseUrl: string,
+	params?: GetFootballTeamsParams,
 ) {
-  return client.get<FootballTeamsResponse>(baseUrl, "teams", params);
+	return client.get<FootballTeamResponse[]>(baseUrl, "teams", params);
 }
 
-export type FootballTeamsStatisticsResponse = {
-  league: {
-    id: number;
-    name: string;
-    country: string;
-    logo: string;
-    flag: string | null;
-    season: number;
-  };
-  team: {
-    id: number;
-    name: string;
-    logo: string;
-  };
-  form: string | null;
-  fixtures: {
-    played: {
-      home: number;
-      away: number;
-      total: number;
-    };
-    wins: {
-      home: number;
-      away: number;
-      total: number;
-    };
-    draws: {
-      home: number;
-      away: number;
-      total: number;
-    };
-    loses: {
-      home: number;
-      away: number;
-      total: number;
-    };
-  };
-  goals: {
-    for: {
-      total: { home: number; away: number; total: number };
-      average: { home: string; away: string; total: string };
-      minute: {
-        "0-15": {
-          total: number | null;
-          percentage: string | null;
-        };
-        "16-30": {
-          total: number | null;
-          percentage: string | null;
-        };
-        "31-45": {
-          total: number | null;
-          percentage: string | null;
-        };
-        "46-60": {
-          total: number | null;
-          percentage: string | null;
-        };
-        "61-75": {
-          total: number | null;
-          percentage: string | null;
-        };
-        "76-90": {
-          total: number | null;
-          percentage: string | null;
-        };
-        "91-105": {
-          total: number | null;
-          percentage: string | null;
-        };
-        "106-120": {
-          total: number | null;
-          percentage: string | null;
-        };
-      };
-      under_over: {
-        "0.5": {
-          over: number;
-          under: number;
-        };
-        "1.5": {
-          over: number;
-          under: number;
-        };
-        "2.5": {
-          over: number;
-          under: number;
-        };
-        "3.5": {
-          over: number;
-          under: number;
-        };
-        "4.5": {
-          over: number;
-          under: number;
-        };
-      };
-    };
-    against: {
-      total: { home: number; away: number; total: number };
-      average: { home: string; away: string; total: string };
-      minute: {
-        "0-15": {
-          total: number | null;
-          percentage: string | null;
-        };
-        "16-30": {
-          total: number | null;
-          percentage: string | null;
-        };
-        "31-45": {
-          total: number | null;
-          percentage: string | null;
-        };
-        "46-60": {
-          total: number | null;
-          percentage: string | null;
-        };
-        "61-75": {
-          total: number | null;
-          percentage: string | null;
-        };
-        "76-90": {
-          total: number | null;
-          percentage: string | null;
-        };
-        "91-105": {
-          total: number | null;
-          percentage: string | null;
-        };
-        "106-120": {
-          total: number | null;
-          percentage: string | null;
-        };
-      };
-      under_over: {
-        "0.5": {
-          over: number;
-          under: number;
-        };
-        "1.5": {
-          over: number;
-          under: number;
-        };
-        "2.5": {
-          over: number;
-          under: number;
-        };
-        "3.5": {
-          over: number;
-          under: number;
-        };
-        "4.5": {
-          over: number;
-          under: number;
-        };
-      };
-    };
-  };
-  biggest: {
-    streak: {
-      wins: number;
-      draws: number;
-      loses: number;
-    };
-    wins: {
-      home: string | null;
-      away: string | null;
-    };
-    loses: {
-      home: string | null;
-      away: string | null;
-    };
-    goals: {
-      for: {
-        home: number;
-        away: number;
-      };
-      against: {
-        home: number;
-        away: number;
-      };
-    };
-  };
-  clean_sheet: {
-    home: number;
-    away: number;
-    total: number;
-  };
-  failed_to_score: {
-    home: number;
-    away: number;
-    total: number;
-  };
-  penalty: {
-    scored: {
-      total: number;
-      percentage: string;
-    };
-    missed: {
-      total: number;
-      percentage: string;
-    };
-    total: number;
-  };
-  lineups: {
-    formation: string;
-    played: number;
-  }[];
-  cards: {
-    yellow: {
-      "0-15": {
-        total: number | null;
-        percentage: string | null;
-      };
-      "16-30": {
-        total: number | null;
-        percentage: string | null;
-      };
-      "31-45": {
-        total: number | null;
-        percentage: string | null;
-      };
-      "46-60": {
-        total: number | null;
-        percentage: string | null;
-      };
-      "61-75": {
-        total: number | null;
-        percentage: string | null;
-      };
-      "76-90": {
-        total: number | null;
-        percentage: string | null;
-      };
-      "91-105": {
-        total: number | null;
-        percentage: string | null;
-      };
-      "106-120": {
-        total: number | null;
-        percentage: string | null;
-      };
-    };
-    red: {
-      "0-15": {
-        total: number | null;
-        percentage: string | null;
-      };
-      "16-30": {
-        total: number | null;
-        percentage: string | null;
-      };
-      "31-45": {
-        total: number | null;
-        percentage: string | null;
-      };
-      "46-60": {
-        total: number | null;
-        percentage: string | null;
-      };
-      "61-75": {
-        total: number | null;
-        percentage: string | null;
-      };
-      "76-90": {
-        total: number | null;
-        percentage: string | null;
-      };
-      "91-105": {
-        total: number | null;
-        percentage: string | null;
-      };
-      "106-120": {
-        total: number | null;
-        percentage: string | null;
-      };
-    };
-  };
-};
-
-export type GetTeamStatisticsParams = {
-  league: number;
-  season: number;
-  team: number;
-  date?: string;
-};
-
+/**
+ * Returns aggregated statistics for a team in a specific league and season.
+ *
+ * Includes fixtures, goals (with minute distribution and over/under), biggest streaks,
+ * clean sheets, failed-to-score counts, penalty stats, lineup formations and card distribution.
+ * Pass `date` to limit stats to matches played up to that date; omit for full season stats.
+ *
+ * **Recommended calls:** 1 per day for teams with fixtures that day, otherwise 1 per week.
+ *
+ * @param params.league - The league id (required)
+ * @param params.season - Season year, 4 digits (required, e.g. `2023`)
+ * @param params.team - The team id (required)
+ * @param params.date - Cutoff date in `YYYY-MM-DD` format (optional)
+ *
+ * @example
+ * ```ts
+ * const client = ApiSports({ apiKey: "..." });
+ * const { response } = await client.football.getTeamStatistics({ league: 39, season: 2023, team: 33 });
+ * // With date cutoff:
+ * const { response: upTo } = await client.football.getTeamStatistics({ league: 39, season: 2023, team: 33, date: "2023-10-08" });
+ * ```
+ */
 export function getTeamStatistics(
-  client: HttpClient,
-  baseUrl: string,
-  params: GetTeamStatisticsParams,
+	client: HttpClient,
+	baseUrl: string,
+	params: GetFootballTeamStatisticsParams,
 ) {
-  return client.get<FootballTeamsStatisticsResponse>(
-    baseUrl,
-    "teams/statistics",
-    params,
-  );
+	return client.get<FootballTeamsStatisticsResponse>(
+		baseUrl,
+		"teams/statistics",
+		params,
+	);
 }
 
-export type FootballTeamsSeasonsResponse = number[];
-
-export type GetTeamSeasonsParams = {
-  team: number;
-};
-
+/**
+ * Returns all seasons (4-digit years) in which the team has participated.
+ *
+ * **Recommended calls:** 1 per day.
+ *
+ * @param params.team - The team id (required)
+ *
+ * @example
+ * ```ts
+ * const client = ApiSports({ apiKey: "..." });
+ * const { response } = await client.football.getTeamSeasons({ team: 33 });
+ * // response: [2010, 2011, ..., 2023]
+ * ```
+ */
 export function getTeamSeasons(
-  client: HttpClient,
-  baseUrl: string,
-  params: GetTeamSeasonsParams,
+	client: HttpClient,
+	baseUrl: string,
+	params: GetFootballTeamSeasonsParams,
 ) {
-  return client.get<FootballTeamsSeasonsResponse>(
-    baseUrl,
-    "teams/seasons",
-    params,
-  );
+	return client.get<FootballTeamSeasonsResponse[]>(
+		baseUrl,
+		"teams/seasons",
+		params,
+	);
 }
 
-export type FootballTeamsCountriesResponse = {
-  name: string;
-  code: string | null;
-  flag: string | null;
-}[];
-
+/**
+ * Returns the list of countries available as filters for the `teams` endpoint.
+ *
+ * No parameters required.
+ *
+ * **Recommended calls:** 1 per day.
+ *
+ * @example
+ * ```ts
+ * const client = ApiSports({ apiKey: "..." });
+ * const { response } = await client.football.getTeamCountries();
+ * // response: [{ name: "England", code: "GB", flag: "https://media.api-sports.io/flags/gb.svg" }]
+ * ```
+ */
 export function getTeamCountries(client: HttpClient, baseUrl: string) {
-  return client.get<FootballTeamsCountriesResponse>(baseUrl, "teams/countries");
+	return client.get<FootballCountriesResponse[]>(baseUrl, "teams/countries");
 }

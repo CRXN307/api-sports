@@ -1,23 +1,29 @@
 import type { HttpClient } from "@/types";
 
-export type FootballTrophiesResponse = {
-  league: string;
-  country: string;
-  season: string;
-  place: string;
-}[];
+import type {
+	FootballTrophiesResponse,
+	GetFootballTrophiesParams,
+} from "../types/trophies";
 
-export type GetTrophiesParams = {
-  player?: number;
-  players?: string;
-  coach?: number;
-  coachs?: string;
-};
-
+/**
+ * Returns trophies won by a player or coach.
+ *
+ * **Recommended calls:** 1 per day.
+ *
+ * @param params.player - The player id
+ * @param params.coach - The coach id
+ *
+ * @example
+ * ```ts
+ * const client = ApiSports({ apiKey: "..." });
+ * const { response } = await client.football.getTrophies({ player: 306 });
+ * // response: [{ league: "Premier League", country: "England", season: "2012/2013", place: "Winner" }]
+ * ```
+ */
 export function getTrophies(
-  client: HttpClient,
-  baseUrl: string,
-  params?: GetTrophiesParams,
+	client: HttpClient,
+	baseUrl: string,
+	params?: GetFootballTrophiesParams,
 ) {
-  return client.get<FootballTrophiesResponse>(baseUrl, "trophies", params);
+	return client.get<FootballTrophiesResponse[]>(baseUrl, "trophies", params);
 }
