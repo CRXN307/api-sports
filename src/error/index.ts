@@ -1,7 +1,7 @@
-import type { ApiSportsErrorCode } from "./codes"
-import { API_SPORTS_ERROR_CODES } from "./codes"
+import type { ApiSportsErrorCode } from "./codes";
+import { API_SPORTS_ERROR_CODES } from "./codes";
 
-export { API_SPORTS_ERROR_CODES, type ApiSportsErrorCode } from "./codes"
+export { API_SPORTS_ERROR_CODES, type ApiSportsErrorCode } from "./codes";
 
 /**
  * Error thrown by the API-Sports client for all API and HTTP failures.
@@ -11,25 +11,25 @@ export { API_SPORTS_ERROR_CODES, type ApiSportsErrorCode } from "./codes"
  */
 export class ApiSportsError extends Error {
 	/** HTTP status code of the failed response. */
-	status: number
+	status: number;
 	/** Structured error code identifying the failure category. */
-	code: ApiSportsErrorCode
+	code: ApiSportsErrorCode;
 	/** Raw error fields returned by the API, if any. */
-	errors: Record<string, string>
+	errors: Record<string, string>;
 
 	constructor(
 		message: string,
 		options: {
-			status: number
-			code: ApiSportsErrorCode
-			errors?: Record<string, string>
+			status: number;
+			code: ApiSportsErrorCode;
+			errors?: Record<string, string>;
 		},
 	) {
-		super(message)
-		this.name = "ApiSportsError"
-		this.status = options.status
-		this.code = options.code
-		this.errors = options.errors ?? {}
+		super(message);
+		this.name = "ApiSportsError";
+		this.status = options.status;
+		this.code = options.code;
+		this.errors = options.errors ?? {};
 	}
 
 	/**
@@ -37,9 +37,10 @@ export class ApiSportsError extends Error {
 	 * (e.g. 429 rate-limit responses).
 	 */
 	static fromHttpError(status: number, errors: Record<string, string>) {
-		const message = Object.values(errors)[0] ?? API_SPORTS_ERROR_CODES.API_ERROR
-		const code = status === 429 ? "RATE_LIMIT_EXCEEDED" : "API_ERROR"
-		return new ApiSportsError(message, { status, code, errors })
+		const message =
+			Object.values(errors)[0] ?? API_SPORTS_ERROR_CODES.API_ERROR;
+		const code = status === 429 ? "RATE_LIMIT_EXCEEDED" : "API_ERROR";
+		return new ApiSportsError(message, { status, code, errors });
 	}
 
 	/**
@@ -47,7 +48,7 @@ export class ApiSportsError extends Error {
 	 * instead of the standard error envelope.
 	 */
 	static fromServerError(status: number, message: string) {
-		return new ApiSportsError(message, { status, code: "SERVER_ERROR" })
+		return new ApiSportsError(message, { status, code: "SERVER_ERROR" });
 	}
 
 	/**
@@ -55,7 +56,8 @@ export class ApiSportsError extends Error {
 	 * `errors` object, indicating an API-level failure.
 	 */
 	static fromEnvelopeError(status: number, errors: Record<string, string>) {
-		const message = Object.values(errors)[0] ?? API_SPORTS_ERROR_CODES.API_ERROR
-		return new ApiSportsError(message, { status, code: "API_ERROR", errors })
+		const message =
+			Object.values(errors)[0] ?? API_SPORTS_ERROR_CODES.API_ERROR;
+		return new ApiSportsError(message, { status, code: "API_ERROR", errors });
 	}
 }

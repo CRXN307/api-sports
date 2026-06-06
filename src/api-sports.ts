@@ -1,19 +1,34 @@
-import type { ClientOptions, HttpClient } from "./types";
-import { API_SPORTS_ERROR_CODES } from "./error";
-
 import { createHttpClient } from "./client";
+import { API_SPORTS_ERROR_CODES } from "./error";
 import { football } from "./sports/football";
+import type { ClientOptions, HttpClient } from "./types";
 
+/**
+ * Wires an HTTP client into the public API-Sports surface.
+ *
+ * Builds the client via the injected `init` factory, then exposes the sport
+ * modules (currently `football`) plus the `$ERROR_CODES` catalog. The `init`
+ * indirection keeps the HTTP layer swappable (e.g. a mock client in tests).
+ *
+ * @param options - Client options ({@link ClientOptions}) forwarded to `init`.
+ * @param init - Factory that turns `options` into an {@link HttpClient}.
+ * @returns The API-Sports client: `{ football, $ERROR_CODES }`.
+ *
+ * @example
+ * ```ts
+ * const client = createApiSports({ apiKey: "xxx" }, createHttpClient)
+ * ```
+ */
 function createApiSports<Options extends ClientOptions>(
-  options: Options,
-  init: (options: Options) => HttpClient,
+	options: Options,
+	init: (options: Options) => HttpClient,
 ) {
-  const client = init(options);
+	const client = init(options);
 
-  return {
-    football: football(client),
-    $ERROR_CODES: API_SPORTS_ERROR_CODES,
-  };
+	return {
+		football: football(client),
+		$ERROR_CODES: API_SPORTS_ERROR_CODES,
+	};
 }
 
 /**
@@ -26,5 +41,5 @@ function createApiSports<Options extends ClientOptions>(
  * ```
  */
 export function ApiSports<Options extends ClientOptions>(options: Options) {
-  return createApiSports(options, createHttpClient);
+	return createApiSports(options, createHttpClient);
 }
