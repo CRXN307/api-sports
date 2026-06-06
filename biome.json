@@ -5,7 +5,26 @@
     "enabled": true,
     "indentStyle": "tab"
   },
-  "assist": { "actions": { "source": { "organizeImports": "on" } } },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              [":BUN:", ":NODE:"],
+              ":BLANK_LINE:",
+              [":PACKAGE:", ":PACKAGE_WITH_PROTOCOL:", ":URL:"],
+              ":BLANK_LINE:",
+              ":ALIAS:",
+              ":BLANK_LINE:",
+              ":PATH:"
+            ]
+          }
+        }
+      }
+    }
+  },
   "linter": {
     "enabled": true,
     "rules": {
@@ -16,12 +35,35 @@
             "style": "separatedType"
           }
         },
+        "useExportType": "error",
         "useNodejsImportProtocol": "error",
         "useConst": "error",
+        "useConsistentArrayType": {
+          "level": "error",
+          "options": {
+            "syntax": "shorthand"
+          }
+        },
+        "useNamingConvention": {
+          "level": "error",
+          "options": {
+            "strictCase": false,
+            "conventions": [
+              {
+                "selector": { "kind": "typeProperty" },
+                "match": ".*"
+              },
+              {
+                "selector": { "kind": "objectLiteralProperty" },
+                "match": ".*"
+              }
+            ]
+          }
+        },
         "noRestrictedTypes": "off",
         "noRestrictedGlobals": "off"
       },
-      "recommended": false,
+      "recommended": true,
       "suspicious": {
         "noImplicitAnyLet": "warn",
         "noDuplicateObjectKeys": "warn",
@@ -37,8 +79,8 @@
         "noUselessTypeConstraint": "warn"
       },
       "correctness": {
-        "noUnusedImports": "warn",
-        "noUnusedVariables": "warn"
+        "noUnusedImports": "error",
+        "noUnusedVariables": "error"
       },
       "nursery": {
         "noMisusedPromises": "error",
@@ -107,7 +149,7 @@
       "!**/build",
       "!**/.cache",
       "!**/.tmp",
-      "!**/.claude/worktrees/**"
+      "!**/.claude/worktrees"
     ]
   }
 }
