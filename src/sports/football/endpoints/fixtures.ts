@@ -1,460 +1,254 @@
 import type { HttpClient } from "@/types";
 
-export type FootballFixturesRounds = string[];
+import type {
+	FootballFixtureEventResponse,
+	FootballFixtureLineupResponse,
+	FootballFixturePlayersStatisticsResponse,
+	FootballFixtureResponse,
+	FootballFixtureStatisticsResponse,
+	FootballRoundResponse,
+	GetFootballFixtureEventsParams,
+	GetFootballFixtureLineupsParams,
+	GetFootballFixturePlayersStatisticsParams,
+	GetFootballFixtureStatisticsParams,
+	GetFootballFixturesParams,
+	GetFootballHeadToHeadParams,
+	GetFootballRoundsParams,
+} from "../types/fixtures";
 
-export type GetRoundsParams = {
-  league: number;
-  season: number;
-  current?: boolean;
-  dates?: boolean;
-  timezone?: string;
-};
-
+/**
+ * Returns all available rounds for a league and season.
+ *
+ * Round strings (e.g. `"Regular Season - 1"`) can be used as the `round` filter in fixtures.
+ * Pass `current: true` to get only the active round.
+ * Pass `dates: true` to include the date range of each round.
+ *
+ * **Recommended calls:** 1 per day.
+ *
+ * @param params.league - The league id (required)
+ * @param params.season - Season year, 4 digits (required, e.g. `2023`)
+ * @param params.current - `true` to return only the current round
+ * @param params.dates - `true` to include dates for each round
+ * @param params.timezone - A valid timezone string from `getTimezones`
+ *
+ * @example
+ * ```ts
+ * const client = ApiSports({ apiKey: "..." });
+ * const { response } = await client.football.getRounds({ league: 39, season: 2023 });
+ * // response: ["Regular Season - 1", "Regular Season - 2", ...]
+ * ```
+ */
 export function getRounds(
-  client: HttpClient,
-  baseUrl: string,
-  params: GetRoundsParams,
+	client: HttpClient,
+	baseUrl: string,
+	params: GetFootballRoundsParams,
 ) {
-  return client.get<FootballFixturesRounds>(baseUrl, "fixtures/rounds", params);
+	return client.get<FootballRoundResponse[]>(
+		baseUrl,
+		"fixtures/rounds",
+		params,
+	);
 }
 
-export type FootballFixturesResponse = {
-  fixture: {
-    id: number;
-    referee: string | null;
-    timezone: string;
-    date: string;
-    timestamp: number;
-    periods: {
-      first: number | null;
-      second: number | null;
-    };
-    venue: {
-      id: number | null;
-      name: string | null;
-      city: string | null;
-    };
-    status: {
-      long: string;
-      short:
-        | "TBD"
-        | "NS"
-        | "1H"
-        | "HT"
-        | "2H"
-        | "ET"
-        | "BT"
-        | "P"
-        | "SUSP"
-        | "INT"
-        | "FT"
-        | "AET"
-        | "PEN"
-        | "PST"
-        | "CANC"
-        | "ABD"
-        | "AWD"
-        | "WO"
-        | "LIVE";
-      elapsed: number | null;
-      extra: number | null;
-    };
-  };
-  league: {
-    id: number;
-    name: string;
-    country: string;
-    logo: string;
-    flag: string | null;
-    season: number;
-    round: string;
-  };
-  teams: {
-    home: {
-      id: number;
-      name: string;
-      logo: string;
-      winner: boolean | null;
-    };
-    away: {
-      id: number;
-      name: string;
-      logo: string;
-      winner: boolean | null;
-    };
-  };
-  score: {
-    halftime: {
-      home: number | null;
-      away: number | null;
-    };
-    fulltime: {
-      home: number | null;
-      away: number | null;
-    };
-    extratime: {
-      home: number | null;
-      away: number | null;
-    };
-    penalty: {
-      home: number | null;
-      away: number | null;
-    };
-  };
-}[];
-
-export type GetFixturesParams = {
-  id?: number;
-  ids?: string;
-  live?: string;
-  date?: string;
-  league?: number;
-  season?: number;
-  team?: number;
-  last?: number;
-  next?: number;
-  from?: string;
-  to?: string;
-  round?: string;
-  status?: string;
-  venue?: number;
-  timezone?: string;
-};
-
+/**
+ * Returns fixtures matching the given filters.
+ *
+ * At least one filter is recommended. Use `live: "all"` or `live: "id-id"` for live fixtures.
+ * The `status` filter accepts short codes (e.g. `"FT"`, `"NS"`) from `FootballFixtureStatusMap`.
+ *
+ * **Recommended calls:** 1 per minute for live fixtures, 1 per hour otherwise.
+ *
+ * @param params.id - A single fixture id
+ * @param params.ids - Multiple fixture ids, dash-separated (e.g. `"1-2-3"`, max 20)
+ * @param params.live - `"all"` for all live fixtures or `"id-id"` for specific leagues
+ * @param params.date - Date in `YYYY-MM-DD` format
+ * @param params.league - The league id
+ * @param params.season - Season year, 4 digits (e.g. `2023`)
+ * @param params.team - The team id
+ * @param params.last - Last N fixtures (max 2 years)
+ * @param params.next - Next N fixtures (max 2 years)
+ * @param params.from - Start date in `YYYY-MM-DD` format
+ * @param params.to - End date in `YYYY-MM-DD` format
+ * @param params.round - Round string from `getRounds`
+ * @param params.status - Short status code (e.g. `"FT"`, `"NS"`, `"1H"`)
+ * @param params.venue - The venue id
+ * @param params.timezone - A valid timezone string from `getTimezones`
+ *
+ * @example
+ * ```ts
+ * const client = ApiSports({ apiKey: "..." });
+ * const { response } = await client.football.getFixtures({ league: 39, season: 2023 });
+ * // response: [{ fixture: { id: 867946, status: { short: "FT", long: "Match Finished", ... } }, ... }]
+ * ```
+ */
 export function getFixtures(
-  client: HttpClient,
-  baseUrl: string,
-  params?: GetFixturesParams,
+	client: HttpClient,
+	baseUrl: string,
+	params?: GetFootballFixturesParams,
 ) {
-  return client.get<FootballFixturesResponse>(baseUrl, "fixtures", params);
+	return client.get<FootballFixtureResponse[]>(baseUrl, "fixtures", params);
 }
 
-export type FootballFixturesH2HResponse = {
-  fixture: {
-    id: number;
-    referee: string | null;
-    timezone: string;
-    date: string;
-    timestamp: number;
-    periods: {
-      first: number | null;
-      second: number | null;
-    };
-    venue: {
-      id: number | null;
-      name: string | null;
-      city: string | null;
-    };
-    status: {
-      long: string;
-      short:
-        | "TBD"
-        | "NS"
-        | "1H"
-        | "HT"
-        | "2H"
-        | "ET"
-        | "BT"
-        | "P"
-        | "SUSP"
-        | "INT"
-        | "FT"
-        | "AET"
-        | "PEN"
-        | "PST"
-        | "CANC"
-        | "ABD"
-        | "AWD"
-        | "WO"
-        | "LIVE";
-      elapsed: number | null;
-      extra: number | null;
-    };
-  };
-  league: {
-    id: number;
-    name: string;
-    country: string;
-    logo: string;
-    flag: string | null;
-    season: number;
-    round: string;
-  };
-  teams: {
-    home: {
-      id: number;
-      name: string;
-      logo: string;
-      winner: boolean | null;
-    };
-    away: {
-      id: number;
-      name: string;
-      logo: string;
-      winner: boolean | null;
-    };
-  };
-  score: {
-    halftime: {
-      home: number | null;
-      away: number | null;
-    };
-    fulltime: {
-      home: number | null;
-      away: number | null;
-    };
-    extratime: {
-      home: number | null;
-      away: number | null;
-    };
-    penalty: {
-      home: number | null;
-      away: number | null;
-    };
-  };
-}[];
-
-export type GetHeadToHeadParams = {
-  h2h: string;
-  date?: string;
-  league?: number;
-  season?: number;
-  last?: number;
-  next?: number;
-  from?: string;
-  to?: string;
-  status?: string;
-  venue?: number;
-  timezone?: string;
-};
-
+/**
+ * Returns head-to-head fixtures between two teams.
+ *
+ * The `h2h` parameter is a dash-separated pair of team ids (e.g. `"33-34"`).
+ *
+ * **Recommended calls:** 1 per day.
+ *
+ * @param params.h2h - Two team ids dash-separated (required, e.g. `"33-34"`)
+ * @param params.date - Date in `YYYY-MM-DD` format
+ * @param params.league - Filter by league id
+ * @param params.season - Season year, 4 digits (e.g. `2023`)
+ * @param params.last - Last N fixtures
+ * @param params.next - Next N fixtures
+ * @param params.from - Start date in `YYYY-MM-DD` format
+ * @param params.to - End date in `YYYY-MM-DD` format
+ * @param params.status - Short status code (e.g. `"FT"`)
+ * @param params.venue - The venue id
+ * @param params.timezone - A valid timezone string from `getTimezones`
+ *
+ * @example
+ * ```ts
+ * const client = ApiSports({ apiKey: "..." });
+ * const { response } = await client.football.getHeadToHead({ h2h: "33-34", last: 10 });
+ * // response: [{ fixture: { id: 867946, ... }, teams: { home: { winner: true }, away: { winner: false } }, ... }]
+ * ```
+ */
 export function getHeadToHead(
-  client: HttpClient,
-  baseUrl: string,
-  params: GetHeadToHeadParams,
+	client: HttpClient,
+	baseUrl: string,
+	params: GetFootballHeadToHeadParams,
 ) {
-  return client.get<FootballFixturesH2HResponse>(
-    baseUrl,
-    "fixtures/headtohead",
-    params,
-  );
+	return client.get<FootballFixtureResponse[]>(
+		baseUrl,
+		"fixtures/headtohead",
+		params,
+	);
 }
 
-export type FootballFixturesStatisticsResponse = {
-  team: {
-    id: number;
-    name: string;
-    logo: string;
-  };
-  statistics: {
-    type: string;
-    value: number | string;
-  }[];
-}[];
-
-export type GetFixtureStatisticsParams = {
-  fixture: number;
-  team?: number;
-  type?: string;
-  half?: boolean;
-};
-
+/**
+ * Returns statistics for each team in a fixture.
+ *
+ * Returns one entry per team (home + away). Use `team` to filter to a single team.
+ * The `type` filter accepts a statistic name (e.g. `"Shots on Goal"`).
+ *
+ * **Recommended calls:** 1 per minute for live fixtures, 1 per hour otherwise.
+ *
+ * @param params.fixture - The fixture id (required)
+ * @param params.team - Filter by team id
+ * @param params.type - Filter by statistic type name
+ * @param params.half - `true` to return only first-half statistics
+ *
+ * @example
+ * ```ts
+ * const client = ApiSports({ apiKey: "..." });
+ * const { response } = await client.football.getFixtureStatistics({ fixture: 867946 });
+ * // response: [{ team: { id: 33, name: "Manchester United", ... }, statistics: [{ type: "Shots on Goal", value: 5 }] }]
+ * ```
+ */
 export function getFixtureStatistics(
-  client: HttpClient,
-  baseUrl: string,
-  params: GetFixtureStatisticsParams,
+	client: HttpClient,
+	baseUrl: string,
+	params: GetFootballFixtureStatisticsParams,
 ) {
-  return client.get<FootballFixturesStatisticsResponse>(
-    baseUrl,
-    "fixtures/statistics",
-    params,
-  );
+	return client.get<FootballFixtureStatisticsResponse[]>(
+		baseUrl,
+		"fixtures/statistics",
+		params,
+	);
 }
 
-export type FootballFixturesEventsResponse = ({
-  time: {
-    elapsed: number;
-    extra: number | null;
-  };
-  team: {
-    id: number;
-    name: string;
-    logo: string;
-  };
-  player: {
-    id: number;
-    name: string;
-  };
-  assist: {
-    id: number | null;
-    name: string | null;
-  };
-  comments: string | null;
-} & (
-  | {
-      type: "Goal";
-      detail: "Normal Goal" | "Own Goal" | "Penalty" | "Missed Penalty";
-    }
-  | {
-      type: "Card";
-      detail: "Yellow Card" | "Red Card";
-    }
-  | {
-      type: "Subst";
-      detail: `Substitution ${number}`;
-    }
-  | {
-      type: "Var";
-      detail: "Goal cancelled" | "Penalty confirmed";
-    }
-))[];
-
-export type GetFixtureEventsParams = {
-  fixture: number;
-  team?: number;
-  player?: number;
-  type?: string;
-};
-
+/**
+ * Returns all events (goals, cards, substitutions, VAR) for a fixture.
+ *
+ * Events are discriminated by `type`: `"Goal"`, `"Card"`, `"Subst"`, or `"Var"`.
+ * Narrowing on `event.type` gives the correct `detail` union for that event.
+ *
+ * **Recommended calls:** 1 per minute for live fixtures, 1 per hour otherwise.
+ *
+ * @param params.fixture - The fixture id (required)
+ * @param params.team - Filter by team id
+ * @param params.player - Filter by player id
+ * @param params.type - Filter by event type (`"Goal"`, `"Card"`, `"Subst"`, `"Var"`)
+ *
+ * @example
+ * ```ts
+ * const client = ApiSports({ apiKey: "..." });
+ * const { response } = await client.football.getFixtureEvents({ fixture: 867946 });
+ * // response: [{ type: "Goal", detail: "Normal Goal", time: { elapsed: 23, extra: null }, player: { id: 306, name: "..." } }]
+ * ```
+ */
 export function getFixtureEvents(
-  client: HttpClient,
-  baseUrl: string,
-  params: GetFixtureEventsParams,
+	client: HttpClient,
+	baseUrl: string,
+	params: GetFootballFixtureEventsParams,
 ) {
-  return client.get<FootballFixturesEventsResponse>(
-    baseUrl,
-    "fixtures/events",
-    params,
-  );
+	return client.get<FootballFixtureEventResponse[]>(
+		baseUrl,
+		"fixtures/events",
+		params,
+	);
 }
 
-export type FootballFixturesLineupsResponse = {
-  team: {
-    id: number;
-    name: string;
-    logo: string;
-    colors: {
-      player: { primary: string; number: string; border: string };
-      goalkeeper: { primary: string; number: string; border: string };
-    } | null;
-  };
-  formation: string;
-  startXI: {
-    player: {
-      id: number;
-      name: string;
-      number: number;
-      pos: string;
-      grid: string;
-    };
-  }[];
-  substitues: {
-    player: {
-      id: number;
-      name: string;
-      number: number;
-      pos: string;
-      grid: string | null;
-    };
-  }[];
-  coach: {
-    id: number;
-    name: string;
-    photo: string;
-  };
-}[];
-
-export type GetFixtureLineupsParams = {
-  fixture: number;
-  team?: number;
-  player?: number;
-  type?: string;
-};
-
+/**
+ * Returns the lineup for each team in a fixture.
+ *
+ * Returns one entry per team (home + away). Includes starting XI, substitutes, formation, and coach.
+ * `startXI` players have a `grid` position string (e.g. `"1:1"`); substitutes may have `grid: null`.
+ *
+ * **Recommended calls:** 1 per hour before kickoff, 1 per day after.
+ *
+ * @param params.fixture - The fixture id (required)
+ * @param params.team - Filter by team id
+ * @param params.player - Filter by player id
+ * @param params.type - Filter by player type
+ *
+ * @example
+ * ```ts
+ * const client = ApiSports({ apiKey: "..." });
+ * const { response } = await client.football.getFixtureLineups({ fixture: 867946 });
+ * // response: [{ team: { id: 33, formation: "4-2-3-1" }, startXI: [{ player: { id: 306, name: "...", grid: "1:1" } }] }]
+ * ```
+ */
 export function getFixtureLineups(
-  client: HttpClient,
-  baseUrl: string,
-  params: GetFixtureLineupsParams,
+	client: HttpClient,
+	baseUrl: string,
+	params: GetFootballFixtureLineupsParams,
 ) {
-  return client.get<FootballFixturesLineupsResponse>(
-    baseUrl,
-    "fixtures/lineups",
-    params,
-  );
+	return client.get<FootballFixtureLineupResponse[]>(
+		baseUrl,
+		"fixtures/lineups",
+		params,
+	);
 }
 
-export type FootballFixturesPlayersResponse = {
-  team: {
-    id: number;
-    name: string;
-    logo: string;
-    update: string;
-  };
-  players: {
-    player: {
-      id: number;
-      name: string;
-      photo: string;
-    };
-    statistics: {
-      games: {
-        minutes: number | null;
-        number: number;
-        position: string;
-        rating: string | null;
-        captain: boolean;
-        substitute: boolean;
-      };
-      offsides: number | null;
-      shots: { total: number | null; on: number | null };
-      goals: {
-        total: number | null;
-        conceded: number;
-        assists: number | null;
-        saves: number | null;
-      };
-      passes: {
-        total: number | null;
-        key: number | null;
-        accuracy: number | null;
-      };
-      tackles: {
-        total: number | null;
-        blocks: number | null;
-        interceptions: number | null;
-      };
-      duels: { total: number | null; won: number | null };
-      dribbles: {
-        attempts: number | null;
-        success: number | null;
-        past: number | null;
-      };
-      fouls: { drawn: number | null; committed: number | null };
-      cards: { yellow: number; red: number };
-      penalty: {
-        won: number | null;
-        committed: number | null;
-        scored: number;
-        missed: number;
-        saved: number | null;
-      };
-    }[];
-  }[];
-}[];
-
-export type GetFixturePlayersParams = {
-  fixture: number;
-  team?: number;
-};
-
-export function getFixturePlayers(
-  client: HttpClient,
-  baseUrl: string,
-  params: GetFixturePlayersParams,
+/**
+ * Returns player statistics for each team in a fixture.
+ *
+ * Returns one entry per team (home + away). Each team entry contains a `players` array
+ * with per-player `statistics` covering shots, goals, passes, tackles, and more.
+ *
+ * **Recommended calls:** 1 per minute for live fixtures, 1 per hour otherwise.
+ *
+ * @param params.fixture - The fixture id (required)
+ * @param params.team - Filter by team id
+ *
+ * @example
+ * ```ts
+ * const client = ApiSports({ apiKey: "..." });
+ * const { response } = await client.football.getFixturePlayers({ fixture: 867946 });
+ * // response: [{ team: { id: 33, ... }, players: [{ player: { id: 306, name: "..." }, statistics: [...] }] }]
+ * ```
+ */
+export function getFixturePlayersStatistics(
+	client: HttpClient,
+	baseUrl: string,
+	params: GetFootballFixturePlayersStatisticsParams,
 ) {
-  return client.get<FootballFixturesPlayersResponse>(
-    baseUrl,
-    "fixtures/players",
-    params,
-  );
+	return client.get<FootballFixturePlayersStatisticsResponse[]>(
+		baseUrl,
+		"fixtures/players",
+		params,
+	);
 }

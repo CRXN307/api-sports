@@ -1,75 +1,35 @@
 import type { HttpClient } from "@/types";
 
-export type FootballPredictionsResponse = {
-  predictions: {
-    winner: { id: number | null; name: string | null; comment: string | null };
-    win_or_draw: boolean;
-    under_over: string | null;
-    goals: { home: string; away: string };
-    advice: string;
-    percent: { home: string; draw: string; away: string };
-  };
-  league: {
-    id: number;
-    name: string;
-    country: string;
-    logo: string;
-    flag: string | null;
-    season: number;
-  };
-  teams: {
-    home: {
-      id: number;
-      name: string;
-      logo: string;
-      last_5: {
-        form: string;
-        att: string;
-        def: string;
-        goals: {
-          for: { total: number; average: string };
-          against: { total: number; average: string };
-        };
-      };
-    };
-    away: {
-      id: number;
-      name: string;
-      logo: string;
-      last_5: {
-        form: string;
-        att: string;
-        def: string;
-        goals: {
-          for: { total: number; average: string };
-          against: { total: number; average: string };
-        };
-      };
-    };
-  };
-  comparison: {
-    form: { home: string; away: string };
-    att: { home: string; away: string };
-    def: { home: string; away: string };
-    poisson_distribution: { home: string; away: string };
-    h2h: { home: string; away: string };
-    goals: { home: string; away: string };
-    total: { home: string; away: string };
-  };
-}[];
+import type {
+	FootballPredictionsResponse,
+	GetFootballPredictionsParams,
+} from "../types/predictions";
 
-export type getPredictionsParams = {
-  fixture: number;
-};
-
+/**
+ * Returns match predictions for a fixture.
+ *
+ * Includes win/draw/loss percentages, predicted winner, advice, team form (last 5),
+ * and a head-to-head comparison across 7 metrics.
+ *
+ * **Recommended calls:** 1 per day.
+ *
+ * @param params.fixture - The fixture id (required)
+ *
+ * @example
+ * ```ts
+ * const client = ApiSports({ apiKey: "..." });
+ * const { response } = await client.football.getPredictions({ fixture: 867946 });
+ * // response: [{ predictions: { winner: { id: 33, name: "Manchester United" }, advice: "Win or Draw ..." }, ... }]
+ * ```
+ */
 export function getPredictions(
-  client: HttpClient,
-  baseUrl: string,
-  params: getPredictionsParams,
+	client: HttpClient,
+	baseUrl: string,
+	params: GetFootballPredictionsParams,
 ) {
-  return client.get<FootballPredictionsResponse>(
-    baseUrl,
-    "predictions",
-    params,
-  );
+	return client.get<FootballPredictionsResponse[]>(
+		baseUrl,
+		"predictions",
+		params,
+	);
 }

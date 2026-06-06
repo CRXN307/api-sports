@@ -1,34 +1,32 @@
 import type { HttpClient } from "@/types";
 
-export type FootballCoachsResponse = {
-  id: number;
-  name: string;
-  firstname: string;
-  lastname: string;
-  age: number | null;
-  birth: { date: string | null; place: string | null; country: string | null };
-  nationality: string | null;
-  height: string | null;
-  weight: string | null;
-  photo: string;
-  team: { id: number; name: string; logo: string } | null;
-  career: {
-    team: { id: number; name: string; logo: string };
-    start: string;
-    end: string | null;
-  }[];
-}[];
+import type {
+	FootballCoachsResponse,
+	GetFootballCoachsParams,
+} from "../types/coachs";
 
-export type GetCoachsParams = {
-  id?: number;
-  team?: number;
-  search?: string;
-};
-
+/**
+ * Returns coaches matching the given filters.
+ *
+ * Each coach includes personal details, current team, and full career history.
+ *
+ * **Recommended calls:** 1 per day.
+ *
+ * @param params.id - The coach id
+ * @param params.team - The team id
+ * @param params.search - Search by coach name (min 3 characters)
+ *
+ * @example
+ * ```ts
+ * const client = ApiSports({ apiKey: "..." });
+ * const { response } = await client.football.getCoachs({ team: 33 });
+ * // response: [{ id: 1, name: "Erik ten Hag", team: { id: 33, name: "Manchester United", logo: "..." }, career: [...] }]
+ * ```
+ */
 export function getCoachs(
-  client: HttpClient,
-  baseUrl: string,
-  params?: GetCoachsParams,
+	client: HttpClient,
+	baseUrl: string,
+	params?: GetFootballCoachsParams,
 ) {
-  return client.get<FootballCoachsResponse>(baseUrl, "coachs", params);
+	return client.get<FootballCoachsResponse[]>(baseUrl, "coachs", params);
 }

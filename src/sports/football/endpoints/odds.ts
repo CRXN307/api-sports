@@ -1,172 +1,146 @@
 import type { HttpClient } from "@/types";
 
-export type FootballOdsLiveResponse = {
-  fixture: {
-    id: number;
-    status: { long: string; elapsed: number; seconds: string };
-  };
-  league: { id: number; season: number };
-  teams: {
-    home: { id: number; goals: number | null };
-    away: { id: number; goals: number | null };
-  };
-  status: { stopped: boolean; blocked: boolean; finished: boolean };
-  update: string;
-  odds: {
-    id: number;
-    name: string;
-    values: {
-      value: string;
-      odd: string;
-      handicap: string | null;
-      main: boolean | null;
-      suspended: boolean;
-    }[];
-  }[];
-}[];
+import type {
+	FootballOddsBetsResponse,
+	FootballOddsBookmakersResponse,
+	FootballOddsLiveBetsResponse,
+	FootballOddsLiveResponse,
+	FootballOddsResponse,
+	GetFootballOddsBetsParams,
+	GetFootballOddsBookmakersParams,
+	GetFootballOddsLiveBetsParams,
+	GetFootballOddsLiveParams,
+	GetFootballOddsParams,
+} from "../types/odds";
 
-export type GetOddsLiveParams = {
-  fixture?: number;
-  league?: number;
-  bet?: number;
-};
-
+/**
+ * Returns live odds for fixtures currently in progress.
+ *
+ * **Recommended calls:** 1 per minute.
+ *
+ * @param params.fixture - The fixture id
+ * @param params.league - The league id
+ * @param params.bet - The bet id (from `getOddsLiveBets`)
+ *
+ * @example
+ * ```ts
+ * const client = ApiSports({ apiKey: "..." });
+ * const { response } = await client.football.getOddsLive({ league: 39 });
+ * // response: [{ fixture: { id: 867946, status: { elapsed: 45 } }, odds: [...] }]
+ * ```
+ */
 export function getOddsLive(
-  client: HttpClient,
-  baseUrl: string,
-  params?: GetOddsLiveParams,
+	client: HttpClient,
+	baseUrl: string,
+	params?: GetFootballOddsLiveParams,
 ) {
-  return client.get<FootballOdsLiveResponse>(baseUrl, "odds/live", params);
+	return client.get<FootballOddsLiveResponse[]>(baseUrl, "odds/live", params);
 }
 
-export type FootballOddsLiveBetsResponse = {
-  id: number;
-  name: string;
-}[];
-
-export type GetOddsLiveBetsParams = {
-  id?: number;
-  search?: string;
-};
-
+/**
+ * Returns available bet types for live odds.
+ *
+ * **Recommended calls:** 1 per day.
+ *
+ * @param params.id - The bet id
+ * @param params.search - Search by bet name (min 3 characters)
+ *
+ * @example
+ * ```ts
+ * const client = ApiSports({ apiKey: "..." });
+ * const { response } = await client.football.getOddsLiveBets();
+ * // response: [{ id: 1, name: "Match Winner" }, ...]
+ * ```
+ */
 export function getOddsLiveBets(
-  client: HttpClient,
-  baseUrl: string,
-  params?: GetOddsLiveBetsParams,
+	client: HttpClient,
+	baseUrl: string,
+	params?: GetFootballOddsLiveBetsParams,
 ) {
-  return client.get<FootballOddsLiveBetsResponse>(
-    baseUrl,
-    "odds/live/bets",
-    params,
-  );
+	return client.get<FootballOddsLiveBetsResponse[]>(
+		baseUrl,
+		"odds/live/bets",
+		params,
+	);
 }
 
-export type FootballOddsResponse = {
-  league: {
-    id: number;
-    name: string;
-    country: string;
-    logo: string;
-    flag: string | null;
-    season: number;
-  };
-  fixture: { id: number; timezone: string; date: string; timestamp: number };
-  update: string;
-  bookmakers: {
-    id: number;
-    name: string;
-    bets: {
-      id: number;
-      name: string;
-      values: { value: string; odd: string }[];
-    }[];
-  }[];
-}[];
-
-export type GetOddsParams = {
-  fixture?: number;
-  league?: number;
-  season?: number;
-  date?: string;
-  timezone?: string;
-  page?: number;
-  bookmaker?: number;
-  bet?: number;
-};
-
+/**
+ * Returns pre-match odds for fixtures.
+ *
+ * Results are paginated. Each entry groups odds by bookmaker and bet type.
+ *
+ * **Recommended calls:** 1 per day.
+ *
+ * @param params.fixture - The fixture id
+ * @param params.league - The league id
+ * @param params.season - Season year, 4 digits (e.g. `2023`)
+ * @param params.date - Date in `YYYY-MM-DD` format
+ * @param params.timezone - A valid timezone string from `getTimezones`
+ * @param params.page - Page number for paginated results
+ * @param params.bookmaker - Filter by bookmaker id
+ * @param params.bet - Filter by bet type id
+ *
+ * @example
+ * ```ts
+ * const client = ApiSports({ apiKey: "..." });
+ * const { response } = await client.football.getOdds({ fixture: 867946 });
+ * // response: [{ fixture: { id: 867946, ... }, bookmakers: [{ id: 6, name: "Bwin", bets: [...] }] }]
+ * ```
+ */
 export function getOdds(
-  client: HttpClient,
-  baseUrl: string,
-  params?: GetOddsParams,
+	client: HttpClient,
+	baseUrl: string,
+	params?: GetFootballOddsParams,
 ) {
-  return client.get<FootballOddsResponse>(baseUrl, "odds", params);
+	return client.get<FootballOddsResponse[]>(baseUrl, "odds", params);
 }
 
-export type FootballOddsBookmakersResponse = {
-  id: number;
-  name: string;
-}[];
-
-export type GetOddsBookmakersParams = {
-  id?: number;
-  search?: string;
-};
-
+/**
+ * Returns available bookmakers for odds.
+ *
+ * **Recommended calls:** 1 per day.
+ *
+ * @param params.id - The bookmaker id
+ * @param params.search - Search by bookmaker name (min 3 characters)
+ *
+ * @example
+ * ```ts
+ * const client = ApiSports({ apiKey: "..." });
+ * const { response } = await client.football.getOddsBookmakers();
+ * // response: [{ id: 6, name: "Bwin" }, ...]
+ * ```
+ */
 export function getOddsBookmakers(
-  client: HttpClient,
-  baseUrl: string,
-  params?: GetOddsBookmakersParams,
+	client: HttpClient,
+	baseUrl: string,
+	params?: GetFootballOddsBookmakersParams,
 ) {
-  return client.get<FootballOddsBookmakersResponse>(
-    baseUrl,
-    "odds/bookmakers",
-    params,
-  );
+	return client.get<FootballOddsBookmakersResponse[]>(
+		baseUrl,
+		"odds/bookmakers",
+		params,
+	);
 }
 
-export type FootballOddsBetsResponse = {
-  id: number;
-  name: string;
-}[];
-
-export type GetOddsBetsParams = {
-  id?: number;
-  search?: string;
-};
-
+/**
+ * Returns available bet types for pre-match odds.
+ *
+ * **Recommended calls:** 1 per day.
+ *
+ * @param params.id - The bet id
+ * @param params.search - Search by bet name (min 3 characters)
+ *
+ * @example
+ * ```ts
+ * const client = ApiSports({ apiKey: "..." });
+ * const { response } = await client.football.getOddsBets();
+ * // response: [{ id: 1, name: "Match Winner" }, ...]
+ * ```
+ */
 export function getOddsBets(
-  client: HttpClient,
-  baseUrl: string,
-  params?: GetOddsBetsParams,
+	client: HttpClient,
+	baseUrl: string,
+	params?: GetFootballOddsBetsParams,
 ) {
-  return client.get<FootballOddsBetsResponse>(baseUrl, "odds/bets", params);
-}
-
-export type FootballOddsMappingResponse = {
-  league: {
-    id: number;
-    season: number;
-  };
-  fixture: {
-    id: number;
-    date: string;
-    timestamp: number;
-  };
-  update: string;
-}[];
-
-export type GetOddsMappingParams = {
-  page?: number;
-};
-
-export function getOddsMapping(
-  client: HttpClient,
-  baseUrl: string,
-  params?: GetOddsMappingParams,
-) {
-  return client.get<FootballOddsMappingResponse>(
-    baseUrl,
-    "odds/mapping",
-    params,
-  );
+	return client.get<FootballOddsBetsResponse[]>(baseUrl, "odds/bets", params);
 }
