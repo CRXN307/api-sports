@@ -90,6 +90,7 @@ export type FootballFixtureResponse = {
   fixture: FootballFixture;
   league: FootballFixtureLeague;
   teams: FootballFixtureTeams;
+  goals: FootballFixtureGoals;
   score: FootballFixtureScore;
 };
 
@@ -245,7 +246,7 @@ export type FootballFixturePlayerStatistics = {
     assists: number | null;
     saves: number | null;
   };
-  passes: { total: number | null; key: number | null; accuracy: number | null };
+  passes: { total: number | null; key: number | null; accuracy: string | null };
   tackles: {
     total: number | null;
     blocks: number | null;
@@ -261,7 +262,7 @@ export type FootballFixturePlayerStatistics = {
   cards: { yellow: number; red: number };
   penalty: {
     won: number | null;
-    committed: number | null;
+    commited: number | null;
     scored: number;
     missed: number;
     saved: number | null;

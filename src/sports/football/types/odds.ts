@@ -94,7 +94,7 @@ export type FootballOddsFixture = {
 };
 
 export type FootballOddsBetValue = {
-	value: string;
+	value: string | number;
 	odd: string;
 };
 

@@ -79,7 +79,7 @@ export type FootballPlayerGoals = {
 export type FootballPlayerPasses = {
 	total: number | null;
 	key: number | null;
-	accuracy: string | null;
+	accuracy: number | null;
 };
 
 export type FootballPlayerTackles = {
@@ -112,7 +112,7 @@ export type FootballPlayerCards = {
 
 export type FootballPlayerPenalty = {
 	won: number | null;
-	committed: number | null;
+	commited: number | null;
 	scored: number;
 	missed: number;
 	saved: number | null;

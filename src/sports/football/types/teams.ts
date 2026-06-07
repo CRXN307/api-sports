@@ -14,7 +14,16 @@ export type FootballTeam = {
 
 export type FootballTeamResponse = {
   team: FootballTeam;
-  venue: Omit<FootballVenue, "country">;
+  venue: {
+    id: number | null;
+    name: string | null;
+    address: string | null;
+    city: string | null;
+    country: string | null;
+    capacity: number | null;
+    surface: string | null;
+    image: string | null;
+  };
 };
 
 export type GetFootballTeamsParams = {
