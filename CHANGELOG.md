@@ -1,5 +1,11 @@
 # @crxn307/api-sports
 
+## 1.1.1
+
+### Patch Changes
+
+- fix: correct FootballTeam founded field type to number
+
 ## 1.1.0
 
 ### Minor Changes
