@@ -1,5 +1,11 @@
 # @crxn307/api-sports
 
+## 1.1.3
+
+### Patch Changes
+
+- removed country from venue in FootballTeamResponse
+
 ## 1.1.2
 
 ### Patch Changes
