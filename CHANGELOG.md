@@ -1,5 +1,11 @@
 # @crxn307/api-sports
 
+## 1.1.2
+
+### Patch Changes
+
+- correct type mismatches and expand missing fields in football types
+
 ## 1.1.1
 
 ### Patch Changes
