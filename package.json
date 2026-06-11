@@ -1,6 +1,6 @@
 {
   "name": "@crxn307/api-sports",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "TypeScript client for API-SPORTS — fully typed, ESM-only, zero runtime dependencies",
   "type": "module",
   "license": "MIT",

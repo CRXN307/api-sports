@@ -1,5 +1,11 @@
 # @crxn307/api-sports
 
+## 1.1.4
+
+### Patch Changes
+
+- fix: correct FootballPlayersResponse statistics field to FootballPlayerStatistics[]
+
 ## 1.1.3
 
 ### Patch Changes
