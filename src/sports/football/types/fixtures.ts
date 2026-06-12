@@ -159,8 +159,8 @@ export type FootballFixtureStatistic = {
 export type FootballFixtureStatisticsResponse = {
   team: { id: number; name: string; logo: string };
   statistics: FootballFixtureStatistic[];
-  statistics_1h: FootballFixtureStatistic[];
-  statistics_2h: FootballFixtureStatistic[];
+  statistics_1h?: FootballFixtureStatistic[];
+  statistics_2h?: FootballFixtureStatistic[];
 };
 
 export type GetFootballFixtureStatisticsParams = {
