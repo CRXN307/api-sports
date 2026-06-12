@@ -1,7 +1,10 @@
 import type { FootballPlayer } from "./players";
 import type { FootballVenue } from "./venues";
 
-export type FootballRound = string;
+export type FootballRound = {
+  round: string;
+  dates: string[];
+};
 
 export type FootballRoundResponse = FootballRound;
 
