@@ -1,5 +1,11 @@
 # @crxn307/api-sports
 
+## 1.1.6
+
+### Patch Changes
+
+- fix: added support for fixture half statistics
+
 ## 1.1.5
 
 ### Patch Changes
