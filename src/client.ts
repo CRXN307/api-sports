@@ -73,7 +73,7 @@ export function createHttpClient(options: ClientOptions): HttpClient {
 				);
 			}
 
-			return body as ApiResponse<T>;
+			return body as ApiResponse<T, P>;
 		},
 	};
 }
