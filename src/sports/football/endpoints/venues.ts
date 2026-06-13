@@ -27,10 +27,10 @@ import type {
  * // response: [{ id: 556, name: "Old Trafford", city: "Manchester", country: "England", ... }]
  * ```
  */
-export function getVenues(
+export function getVenues<P extends GetFootballVenuesParams | undefined = undefined>(
 	client: HttpClient,
 	baseUrl: string,
-	params?: GetFootballVenuesParams,
+	params?: P,
 ) {
-	return client.get<FootballVenuesResponse[]>(baseUrl, "venues", params);
+	return client.get<FootballVenuesResponse[], P>(baseUrl, "venues", params);
 }

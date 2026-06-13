@@ -22,12 +22,12 @@ import type {
  * // response: [{ predictions: { winner: { id: 33, name: "Manchester United" }, advice: "Win or Draw ..." }, ... }]
  * ```
  */
-export function getPredictions(
+export function getPredictions<P extends GetFootballPredictionsParams>(
 	client: HttpClient,
 	baseUrl: string,
-	params: GetFootballPredictionsParams,
+	params: P,
 ) {
-	return client.get<FootballPredictionsResponse[]>(
+	return client.get<FootballPredictionsResponse[], P>(
 		baseUrl,
 		"predictions",
 		params,

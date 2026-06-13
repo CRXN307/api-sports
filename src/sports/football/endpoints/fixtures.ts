@@ -38,12 +38,12 @@ import type {
  * // response: ["Regular Season - 1", "Regular Season - 2", ...]
  * ```
  */
-export function getRounds(
+export function getRounds<P extends GetFootballRoundsParams>(
 	client: HttpClient,
 	baseUrl: string,
-	params: GetFootballRoundsParams,
+	params: P,
 ) {
-	return client.get<FootballRoundResponse[]>(
+	return client.get<FootballRoundResponse[], P>(
 		baseUrl,
 		"fixtures/rounds",
 		params,
@@ -81,12 +81,12 @@ export function getRounds(
  * // response: [{ fixture: { id: 867946, status: { short: "FT", long: "Match Finished", ... } }, ... }]
  * ```
  */
-export function getFixtures(
+export function getFixtures<P extends GetFootballFixturesParams | undefined = undefined>(
 	client: HttpClient,
 	baseUrl: string,
-	params?: GetFootballFixturesParams,
+	params?: P,
 ) {
-	return client.get<FootballFixtureResponse[]>(baseUrl, "fixtures", params);
+	return client.get<FootballFixtureResponse[], P>(baseUrl, "fixtures", params);
 }
 
 /**
@@ -115,12 +115,12 @@ export function getFixtures(
  * // response: [{ fixture: { id: 867946, ... }, teams: { home: { winner: true }, away: { winner: false } }, ... }]
  * ```
  */
-export function getHeadToHead(
+export function getHeadToHead<P extends GetFootballHeadToHeadParams>(
 	client: HttpClient,
 	baseUrl: string,
-	params: GetFootballHeadToHeadParams,
+	params: P,
 ) {
-	return client.get<FootballFixtureResponse[]>(
+	return client.get<FootballFixtureResponse[], P>(
 		baseUrl,
 		"fixtures/headtohead",
 		params,
@@ -147,12 +147,12 @@ export function getHeadToHead(
  * // response: [{ team: { id: 33, name: "Manchester United", ... }, statistics: [{ type: "Shots on Goal", value: 5 }] }]
  * ```
  */
-export function getFixtureStatistics(
+export function getFixtureStatistics<P extends GetFootballFixtureStatisticsParams>(
 	client: HttpClient,
 	baseUrl: string,
-	params: GetFootballFixtureStatisticsParams,
+	params: P,
 ) {
-	return client.get<FootballFixtureStatisticsResponse[]>(
+	return client.get<FootballFixtureStatisticsResponse[], P>(
 		baseUrl,
 		"fixtures/statistics",
 		params,
@@ -179,12 +179,12 @@ export function getFixtureStatistics(
  * // response: [{ type: "Goal", detail: "Normal Goal", time: { elapsed: 23, extra: null }, player: { id: 306, name: "..." } }]
  * ```
  */
-export function getFixtureEvents(
+export function getFixtureEvents<P extends GetFootballFixtureEventsParams>(
 	client: HttpClient,
 	baseUrl: string,
-	params: GetFootballFixtureEventsParams,
+	params: P,
 ) {
-	return client.get<FootballFixtureEventResponse[]>(
+	return client.get<FootballFixtureEventResponse[], P>(
 		baseUrl,
 		"fixtures/events",
 		params,
@@ -211,12 +211,12 @@ export function getFixtureEvents(
  * // response: [{ team: { id: 33, formation: "4-2-3-1" }, startXI: [{ player: { id: 306, name: "...", grid: "1:1" } }] }]
  * ```
  */
-export function getFixtureLineups(
+export function getFixtureLineups<P extends GetFootballFixtureLineupsParams>(
 	client: HttpClient,
 	baseUrl: string,
-	params: GetFootballFixtureLineupsParams,
+	params: P,
 ) {
-	return client.get<FootballFixtureLineupResponse[]>(
+	return client.get<FootballFixtureLineupResponse[], P>(
 		baseUrl,
 		"fixtures/lineups",
 		params,
@@ -241,12 +241,12 @@ export function getFixtureLineups(
  * // response: [{ team: { id: 33, ... }, players: [{ player: { id: 306, name: "..." }, statistics: [...] }] }]
  * ```
  */
-export function getFixturePlayersStatistics(
+export function getFixturePlayersStatistics<P extends GetFootballFixturePlayersStatisticsParams>(
 	client: HttpClient,
 	baseUrl: string,
-	params: GetFootballFixturePlayersStatisticsParams,
+	params: P,
 ) {
-	return client.get<FootballFixturePlayersStatisticsResponse[]>(
+	return client.get<FootballFixturePlayersStatisticsResponse[], P>(
 		baseUrl,
 		"fixtures/players",
 		params,

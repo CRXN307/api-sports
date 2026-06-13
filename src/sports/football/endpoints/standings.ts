@@ -25,10 +25,10 @@ import type {
  * // response: [{ league: { id: 39, standings: [[{ rank: 1, team: {...}, points: 70, ... }]] } }]
  * ```
  */
-export function getStandings(
+export function getStandings<P extends GetFootballStandingsParams>(
 	client: HttpClient,
 	baseUrl: string,
-	params: GetFootballStandingsParams,
+	params: P,
 ) {
-	return client.get<FootballStandingsResponse[]>(baseUrl, "standings", params);
+	return client.get<FootballStandingsResponse[], P>(baseUrl, "standings", params);
 }

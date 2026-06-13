@@ -25,10 +25,10 @@ import type {
  * // response: [{ name: "France", code: "FR", flag: "https://media.api-sports.io/flags/fr.svg" }]
  * ```
  */
-export function getCountries(
+export function getCountries<P extends GetFootballCountriesParams | undefined = undefined>(
 	client: HttpClient,
 	baseUrl: string,
-	params?: GetFootballCountriesParams,
+	params?: P,
 ) {
-	return client.get<FootballCountriesResponse[]>(baseUrl, "countries", params);
+	return client.get<FootballCountriesResponse[], P>(baseUrl, "countries", params);
 }

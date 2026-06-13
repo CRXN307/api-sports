@@ -17,5 +17,5 @@ import type { FootballTimezoneResponse } from "../types/timezone";
  * ```
  */
 export function getTimezones(client: HttpClient, baseUrl: string) {
-	return client.get<FootballTimezoneResponse[]>(baseUrl, "timezone");
+	return client.get<FootballTimezoneResponse[], undefined>(baseUrl, "timezone");
 }
