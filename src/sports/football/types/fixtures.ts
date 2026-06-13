@@ -6,9 +6,9 @@ export type FootballRound = {
   dates: string[];
 };
 
-export type FootballRoundResponse = FootballRound;
+export type FootballFixtureRoundsResponse = FootballRound;
 
-export type GetFootballRoundsParams = {
+export type GetFootballFixtureRoundsParams = {
   league: number;
   season: number;
   current?: boolean;
@@ -115,7 +115,7 @@ export type GetFootballFixturesParams = {
   timezone?: string;
 };
 
-export type GetFootballHeadToHeadParams = {
+export type GetFootballFixtureHeadToHeadParams = {
   h2h: string;
   date?: string;
   league?: number;
