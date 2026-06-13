@@ -1,5 +1,11 @@
 # @crxn307/api-sports
 
+## 1.2.1
+
+### Patch Changes
+
+- Fixed parameters field showing union type when calling optional-params endpoints without arguments
+
 ## 1.2.0
 
 ### Minor Changes
