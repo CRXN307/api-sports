@@ -24,11 +24,11 @@ export function createHttpClient(options: ClientOptions): HttpClient {
 	const fetchFn = options.fetch ?? globalThis.fetch;
 
 	return {
-		async get<T>(
+		async get<T, P>(
 			baseUrl: string,
 			endpoint: string,
 			params?: Record<string, string | number | boolean | undefined>,
-		): Promise<ApiResponse<T>> {
+		): Promise<ApiResponse<T, P>> {
 			const url = new URL(`${baseUrl}/${endpoint}`);
 
 			if (params) {
