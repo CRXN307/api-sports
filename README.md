@@ -13,7 +13,7 @@ pnpm add api-sports
 ## Quick start
 
 ```ts
-import { apiSports } from "api-sports"
+import { apiSports } from "@crxn307/api-sports"
 
 const client = apiSports({ apiKey: "your-api-key" })
 
