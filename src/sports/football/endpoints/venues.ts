@@ -27,7 +27,7 @@ import type {
  * // response: [{ id: 556, name: "Old Trafford", city: "Manchester", country: "England", ... }]
  * ```
  */
-export function getVenues<P extends GetFootballVenuesParams | undefined = undefined>(
+export function getVenues<P extends GetFootballVenuesParams = undefined>(
 	client: HttpClient,
 	baseUrl: string,
 	params?: P,
