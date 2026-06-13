@@ -1,5 +1,11 @@
 # @crxn307/api-sports
 
+## 1.2.0
+
+### Minor Changes
+
+- Added typed parameters field to ApiResponse - parameters now reflects the exact keys passed per endpoint
+
 ## 1.1.6
 
 ### Patch Changes
