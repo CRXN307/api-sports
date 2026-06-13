@@ -24,7 +24,7 @@ import type {
  * // response: [{ player: { id: 306, name: "Marcus Rashford" }, transfers: [{ date: "2019-07-01", type: "Free", teams: { in: {...}, out: {...} } }] }]
  * ```
  */
-export function getTransfers<P extends GetFootballTransfersParams = undefined>(
+export function getTransfers<P extends GetFootballTransfersParams | undefined = undefined>(
 	client: HttpClient,
 	baseUrl: string,
 	params?: P,
