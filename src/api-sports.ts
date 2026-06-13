@@ -20,15 +20,15 @@ import type { ClientOptions, HttpClient } from "./types";
  * ```
  */
 function createApiSports<Options extends ClientOptions>(
-	options: Options,
-	init: (options: Options) => HttpClient,
+  options: Options,
+  init: (options: Options) => HttpClient,
 ) {
-	const client = init(options);
+  const client = init(options);
 
-	return {
-		football: football(client),
-		$ERROR_CODES: API_SPORTS_ERROR_CODES,
-	};
+  return {
+    football: football(client),
+    $ERROR_CODES: API_SPORTS_ERROR_CODES,
+  };
 }
 
 /**
@@ -40,6 +40,6 @@ function createApiSports<Options extends ClientOptions>(
  * const { response } = await client.football.getFixtures({ league: 39, season: 2024 })
  * ```
  */
-export function ApiSports<Options extends ClientOptions>(options: Options) {
-	return createApiSports(options, createHttpClient);
+export function apiSports<Options extends ClientOptions>(options: Options) {
+  return createApiSports(options, createHttpClient);
 }
