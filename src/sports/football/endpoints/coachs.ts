@@ -23,7 +23,7 @@ import type {
  * // response: [{ id: 1, name: "Erik ten Hag", team: { id: 33, name: "Manchester United", logo: "..." }, career: [...] }]
  * ```
  */
-export function getCoachs<P extends GetFootballCoachsParams = undefined>(
+export function getCoachs<P extends GetFootballCoachsParams | undefined = undefined>(
 	client: HttpClient,
 	baseUrl: string,
 	params?: P,

@@ -35,7 +35,7 @@ import type {
  * // response: [{ player: { id: 306, name: "Marcus Rashford", ... }, statistics: { goals: { total: 17, ... }, ... } }]
  * ```
  */
-export function getPlayers<P extends GetFootballPlayersParams = undefined>(
+export function getPlayers<P extends GetFootballPlayersParams | undefined = undefined>(
 	client: HttpClient,
 	baseUrl: string,
 	params?: P,
@@ -57,7 +57,7 @@ export function getPlayers<P extends GetFootballPlayersParams = undefined>(
  * // response: [2018, 2019, 2020, 2021, 2022, 2023]
  * ```
  */
-export function getPlayersSeasons<P extends GetFootballPlayerSeasonsParams = undefined>(
+export function getPlayersSeasons<P extends GetFootballPlayerSeasonsParams | undefined = undefined>(
 	client: HttpClient,
 	baseUrl: string,
 	params?: P,
@@ -87,7 +87,7 @@ export function getPlayersSeasons<P extends GetFootballPlayerSeasonsParams = und
  * // response: [{ player: { id: 306, name: "Marcus Rashford", position: "Attacker", ... } }]
  * ```
  */
-export function getPlayersProfiles<P extends GetFootballPlayerProfilesParams = undefined>(
+export function getPlayersProfiles<P extends GetFootballPlayerProfilesParams | undefined = undefined>(
 	client: HttpClient,
 	baseUrl: string,
 	params?: P,
@@ -114,7 +114,7 @@ export function getPlayersProfiles<P extends GetFootballPlayerProfilesParams = u
  * // response: [{ team: { id: 33, name: "Manchester United", logo: "..." }, players: [{ id: 306, name: "...", position: "Attacker" }] }]
  * ```
  */
-export function getPlayersSquads<P extends GetFootballPlayerSquadsParams = undefined>(
+export function getPlayersSquads<P extends GetFootballPlayerSquadsParams | undefined = undefined>(
 	client: HttpClient,
 	baseUrl: string,
 	params?: P,

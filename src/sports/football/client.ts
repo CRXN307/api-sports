@@ -151,7 +151,7 @@ export function football(client: HttpClient) {
 			getPlayersProfiles(client, BASE_URL, params),
 		getPlayerSquads: (params?: GetFootballPlayerSquadsParams) =>
 			getPlayersSquads(client, BASE_URL, params),
-		getPlayersTeams: (params?: GetFootballPlayersTeamsParams) =>
+		getPlayersTeams: (params: GetFootballPlayersTeamsParams) =>
 			getPlayersTeams(client, BASE_URL, params),
 		getPlayersTopScorers: (params: GetFootballPlayersTopParams) =>
 			getPlayersTopScorers(client, BASE_URL, params),
