@@ -13,9 +13,9 @@ pnpm add api-sports
 ## Quick start
 
 ```ts
-import { ApiSports } from "api-sports"
+import { apiSports } from "api-sports"
 
-const client = ApiSports({ apiKey: "your-api-key" })
+const client = apiSports({ apiKey: "your-api-key" })
 
 const { response } = await client.football.getFixtures({
   league: 39,
