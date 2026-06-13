@@ -29,12 +29,12 @@ import type {
  * // response: [{ fixture: { id: 867946, status: { elapsed: 45 } }, odds: [...] }]
  * ```
  */
-export function getOddsLive(
+export function getOddsLive<P extends GetFootballOddsLiveParams | undefined = undefined>(
 	client: HttpClient,
 	baseUrl: string,
-	params?: GetFootballOddsLiveParams,
+	params?: P,
 ) {
-	return client.get<FootballOddsLiveResponse[]>(baseUrl, "odds/live", params);
+	return client.get<FootballOddsLiveResponse[], P>(baseUrl, "odds/live", params);
 }
 
 /**
@@ -52,12 +52,12 @@ export function getOddsLive(
  * // response: [{ id: 1, name: "Match Winner" }, ...]
  * ```
  */
-export function getOddsLiveBets(
+export function getOddsLiveBets<P extends GetFootballOddsLiveBetsParams | undefined = undefined>(
 	client: HttpClient,
 	baseUrl: string,
-	params?: GetFootballOddsLiveBetsParams,
+	params?: P,
 ) {
-	return client.get<FootballOddsLiveBetsResponse[]>(
+	return client.get<FootballOddsLiveBetsResponse[], P>(
 		baseUrl,
 		"odds/live/bets",
 		params,
@@ -87,12 +87,12 @@ export function getOddsLiveBets(
  * // response: [{ fixture: { id: 867946, ... }, bookmakers: [{ id: 6, name: "Bwin", bets: [...] }] }]
  * ```
  */
-export function getOdds(
+export function getOdds<P extends GetFootballOddsParams | undefined = undefined>(
 	client: HttpClient,
 	baseUrl: string,
-	params?: GetFootballOddsParams,
+	params?: P,
 ) {
-	return client.get<FootballOddsResponse[]>(baseUrl, "odds", params);
+	return client.get<FootballOddsResponse[], P>(baseUrl, "odds", params);
 }
 
 /**
@@ -110,12 +110,12 @@ export function getOdds(
  * // response: [{ id: 6, name: "Bwin" }, ...]
  * ```
  */
-export function getOddsBookmakers(
+export function getOddsBookmakers<P extends GetFootballOddsBookmakersParams | undefined = undefined>(
 	client: HttpClient,
 	baseUrl: string,
-	params?: GetFootballOddsBookmakersParams,
+	params?: P,
 ) {
-	return client.get<FootballOddsBookmakersResponse[]>(
+	return client.get<FootballOddsBookmakersResponse[], P>(
 		baseUrl,
 		"odds/bookmakers",
 		params,
@@ -137,10 +137,10 @@ export function getOddsBookmakers(
  * // response: [{ id: 1, name: "Match Winner" }, ...]
  * ```
  */
-export function getOddsBets(
+export function getOddsBets<P extends GetFootballOddsBetsParams | undefined = undefined>(
 	client: HttpClient,
 	baseUrl: string,
-	params?: GetFootballOddsBetsParams,
+	params?: P,
 ) {
-	return client.get<FootballOddsBetsResponse[]>(baseUrl, "odds/bets", params);
+	return client.get<FootballOddsBetsResponse[], P>(baseUrl, "odds/bets", params);
 }

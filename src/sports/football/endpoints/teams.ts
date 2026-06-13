@@ -36,12 +36,12 @@ import type {
  * // response: [{ team: { id: 33, name: "Manchester United", ... }, venue: { ... } }]
  * ```
  */
-export function getTeams(
+export function getTeams<P extends GetFootballTeamsParams | undefined = undefined>(
 	client: HttpClient,
 	baseUrl: string,
-	params?: GetFootballTeamsParams,
+	params?: P,
 ) {
-	return client.get<FootballTeamResponse[]>(baseUrl, "teams", params);
+	return client.get<FootballTeamResponse[], P>(baseUrl, "teams", params);
 }
 
 /**
@@ -66,12 +66,12 @@ export function getTeams(
  * const { response: upTo } = await client.football.getTeamStatistics({ league: 39, season: 2023, team: 33, date: "2023-10-08" });
  * ```
  */
-export function getTeamStatistics(
+export function getTeamStatistics<P extends GetFootballTeamStatisticsParams>(
 	client: HttpClient,
 	baseUrl: string,
-	params: GetFootballTeamStatisticsParams,
+	params: P,
 ) {
-	return client.get<FootballTeamsStatisticsResponse>(
+	return client.get<FootballTeamsStatisticsResponse, P>(
 		baseUrl,
 		"teams/statistics",
 		params,
@@ -92,12 +92,12 @@ export function getTeamStatistics(
  * // response: [2010, 2011, ..., 2023]
  * ```
  */
-export function getTeamSeasons(
+export function getTeamSeasons<P extends GetFootballTeamSeasonsParams>(
 	client: HttpClient,
 	baseUrl: string,
-	params: GetFootballTeamSeasonsParams,
+	params: P,
 ) {
-	return client.get<FootballTeamSeasonsResponse[]>(
+	return client.get<FootballTeamSeasonsResponse[], P>(
 		baseUrl,
 		"teams/seasons",
 		params,
@@ -119,5 +119,5 @@ export function getTeamSeasons(
  * ```
  */
 export function getTeamCountries(client: HttpClient, baseUrl: string) {
-	return client.get<FootballCountriesResponse[]>(baseUrl, "teams/countries");
+	return client.get<FootballCountriesResponse[], undefined>(baseUrl, "teams/countries");
 }

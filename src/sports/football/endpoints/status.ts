@@ -18,5 +18,5 @@ export type StatusResponse = {
 };
 
 export function getStatus(client: HttpClient, baseUrl: string) {
-	return client.get<StatusResponse>(baseUrl, "status");
+	return client.get<StatusResponse, undefined>(baseUrl, "status");
 }

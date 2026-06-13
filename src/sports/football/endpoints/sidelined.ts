@@ -20,10 +20,10 @@ import type {
  * // response: [{ type: "Knee Injury", start: "2023-01-15", end: "2023-03-10" }]
  * ```
  */
-export function getSidelined(
+export function getSidelined<P extends GetFootballSidelinedParams | undefined = undefined>(
 	client: HttpClient,
 	baseUrl: string,
-	params?: GetFootballSidelinedParams,
+	params?: P,
 ) {
-	return client.get<FootballSidelinedResponse[]>(baseUrl, "sidelined", params);
+	return client.get<FootballSidelinedResponse[], P>(baseUrl, "sidelined", params);
 }

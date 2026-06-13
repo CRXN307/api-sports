@@ -35,12 +35,12 @@ import type {
  * // response: [{ league: { id: 39, name: "Premier League", ... }, country: { ... }, seasons: [...] }]
  * ```
  */
-export function getLeagues(
+export function getLeagues<P extends GetFootballLeaguesParams | undefined = undefined>(
 	client: HttpClient,
 	baseUrl: string,
-	params?: GetFootballLeaguesParams,
+	params?: P,
 ) {
-	return client.get<FootballLeagueResponse[]>(baseUrl, "leagues", params);
+	return client.get<FootballLeagueResponse[], P>(baseUrl, "leagues", params);
 }
 
 /**
@@ -60,5 +60,5 @@ export function getLeagues(
  * ```
  */
 export function getSeasons(client: HttpClient, baseUrl: string) {
-	return client.get<FootballLeagueSeasonResponse[]>(baseUrl, "leagues/seasons");
+	return client.get<FootballLeagueSeasonResponse[], undefined>(baseUrl, "leagues/seasons");
 }

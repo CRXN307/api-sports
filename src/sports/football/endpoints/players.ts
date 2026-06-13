@@ -35,12 +35,12 @@ import type {
  * // response: [{ player: { id: 306, name: "Marcus Rashford", ... }, statistics: { goals: { total: 17, ... }, ... } }]
  * ```
  */
-export function getPlayers(
+export function getPlayers<P extends GetFootballPlayersParams | undefined = undefined>(
 	client: HttpClient,
 	baseUrl: string,
-	params?: GetFootballPlayersParams,
+	params?: P,
 ) {
-	return client.get<FootballPlayersResponse[]>(baseUrl, "players", params);
+	return client.get<FootballPlayersResponse[], P>(baseUrl, "players", params);
 }
 
 /**
@@ -57,12 +57,12 @@ export function getPlayers(
  * // response: [2018, 2019, 2020, 2021, 2022, 2023]
  * ```
  */
-export function getPlayersSeasons(
+export function getPlayersSeasons<P extends GetFootballPlayerSeasonsParams | undefined = undefined>(
 	client: HttpClient,
 	baseUrl: string,
-	params?: GetFootballPlayerSeasonsParams,
+	params?: P,
 ) {
-	return client.get<FootballPlayersSeasonsResponse[]>(
+	return client.get<FootballPlayersSeasonsResponse[], P>(
 		baseUrl,
 		"players/seasons",
 		params,
@@ -87,12 +87,12 @@ export function getPlayersSeasons(
  * // response: [{ player: { id: 306, name: "Marcus Rashford", position: "Attacker", ... } }]
  * ```
  */
-export function getPlayersProfiles(
+export function getPlayersProfiles<P extends GetFootballPlayerProfilesParams | undefined = undefined>(
 	client: HttpClient,
 	baseUrl: string,
-	params?: GetFootballPlayerProfilesParams,
+	params?: P,
 ) {
-	return client.get<FootballPlayersProfilesResponse[]>(
+	return client.get<FootballPlayersProfilesResponse[], P>(
 		baseUrl,
 		"players/profiles",
 		params,
@@ -114,12 +114,12 @@ export function getPlayersProfiles(
  * // response: [{ team: { id: 33, name: "Manchester United", logo: "..." }, players: [{ id: 306, name: "...", position: "Attacker" }] }]
  * ```
  */
-export function getPlayersSquads(
+export function getPlayersSquads<P extends GetFootballPlayerSquadsParams | undefined = undefined>(
 	client: HttpClient,
 	baseUrl: string,
-	params?: GetFootballPlayerSquadsParams,
+	params?: P,
 ) {
-	return client.get<FootballPlayersSquadsResponse[]>(
+	return client.get<FootballPlayersSquadsResponse[], P>(
 		baseUrl,
 		"players/squads",
 		params,
@@ -140,12 +140,12 @@ export function getPlayersSquads(
  * // response: [{ team: { id: 33, name: "Manchester United", logo: "..." }, seasons: [2019, 2020, 2021] }]
  * ```
  */
-export function getPlayersTeams(
+export function getPlayersTeams<P extends GetFootballPlayersTeamsParams | undefined = undefined>(
 	client: HttpClient,
 	baseUrl: string,
-	params?: GetFootballPlayersTeamsParams,
+	params?: P,
 ) {
-	return client.get<FootballPlayersTeamsResponse[]>(
+	return client.get<FootballPlayersTeamsResponse[], P>(
 		baseUrl,
 		"players/teams",
 		params,
@@ -167,12 +167,12 @@ export function getPlayersTeams(
  * // response: [{ player: { id: 306, name: "..." }, statistics: { goals: { total: 27, ... } } }]
  * ```
  */
-export function getPlayersTopScorers(
+export function getPlayersTopScorers<P extends GetFootballPlayersTopParams>(
 	client: HttpClient,
 	baseUrl: string,
-	params: GetFootballPlayersTopParams,
+	params: P,
 ) {
-	return client.get<FootballPlayersResponse[]>(
+	return client.get<FootballPlayersResponse[], P>(
 		baseUrl,
 		"players/topscorers",
 		params,
@@ -194,12 +194,12 @@ export function getPlayersTopScorers(
  * // response: [{ player: { id: 306, name: "..." }, statistics: { goals: { assists: 15, ... } } }]
  * ```
  */
-export function getTopAssists(
+export function getTopAssists<P extends GetFootballPlayersTopParams>(
 	client: HttpClient,
 	baseUrl: string,
-	params: GetFootballPlayersTopParams,
+	params: P,
 ) {
-	return client.get<FootballPlayersResponse[]>(
+	return client.get<FootballPlayersResponse[], P>(
 		baseUrl,
 		"players/topassists",
 		params,
@@ -221,12 +221,12 @@ export function getTopAssists(
  * // response: [{ player: { id: 306, name: "..." }, statistics: { cards: { yellow: 12, ... } } }]
  * ```
  */
-export function getTopYellowCards(
+export function getTopYellowCards<P extends GetFootballPlayersTopParams>(
 	client: HttpClient,
 	baseUrl: string,
-	params: GetFootballPlayersTopParams,
+	params: P,
 ) {
-	return client.get<FootballPlayersResponse[]>(
+	return client.get<FootballPlayersResponse[], P>(
 		baseUrl,
 		"players/topyellowcards",
 		params,
@@ -248,12 +248,12 @@ export function getTopYellowCards(
  * // response: [{ player: { id: 306, name: "..." }, statistics: { cards: { red: 3, ... } } }]
  * ```
  */
-export function getTopRedCards(
+export function getTopRedCards<P extends GetFootballPlayersTopParams>(
 	client: HttpClient,
 	baseUrl: string,
-	params: GetFootballPlayersTopParams,
+	params: P,
 ) {
-	return client.get<FootballPlayersResponse[]>(
+	return client.get<FootballPlayersResponse[], P>(
 		baseUrl,
 		"players/topredcards",
 		params,
