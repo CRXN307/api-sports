@@ -1,9 +1,9 @@
 import type { HttpClient } from "@/types";
 
 import type {
-	FootballLeagueResponse,
-	FootballLeagueSeasonResponse,
-	GetFootballLeaguesParams,
+  FootballLeagueResponse,
+  FootballLeagueSeasonResponse,
+  GetFootballLeaguesParams,
 } from "../types/leagues";
 
 /**
@@ -35,12 +35,10 @@ import type {
  * // response: [{ league: { id: 39, name: "Premier League", ... }, country: { ... }, seasons: [...] }]
  * ```
  */
-export function getLeagues<P extends GetFootballLeaguesParams | undefined = undefined>(
-	client: HttpClient,
-	baseUrl: string,
-	params?: P,
-) {
-	return client.get<FootballLeagueResponse[], P>(baseUrl, "leagues", params);
+export function getLeagues<
+  P extends GetFootballLeaguesParams | undefined = undefined,
+>(client: HttpClient, baseUrl: string, params?: P) {
+  return client.get<FootballLeagueResponse[], P>(baseUrl, "leagues", params);
 }
 
 /**
@@ -59,6 +57,9 @@ export function getLeagues<P extends GetFootballLeaguesParams | undefined = unde
  * // response: [2008, 2010, 2011, ..., 2023]
  * ```
  */
-export function getSeasons(client: HttpClient, baseUrl: string) {
-	return client.get<FootballLeagueSeasonResponse[], undefined>(baseUrl, "leagues/seasons");
+export function getLeagueSeasons(client: HttpClient, baseUrl: string) {
+  return client.get<FootballLeagueSeasonResponse[], undefined>(
+    baseUrl,
+    "leagues/seasons",
+  );
 }
