@@ -35,7 +35,7 @@ import type {
  * // response: [{ league: { id: 39, name: "Premier League", ... }, country: { ... }, seasons: [...] }]
  * ```
  */
-export function getLeagues<P extends GetFootballLeaguesParams | undefined = undefined>(
+export function getLeagues<P extends GetFootballLeaguesParams = undefined>(
 	client: HttpClient,
 	baseUrl: string,
 	params?: P,

@@ -29,7 +29,7 @@ import type {
  * // response: [{ fixture: { id: 867946, status: { elapsed: 45 } }, odds: [...] }]
  * ```
  */
-export function getOddsLive<P extends GetFootballOddsLiveParams | undefined = undefined>(
+export function getOddsLive<P extends GetFootballOddsLiveParams = undefined>(
 	client: HttpClient,
 	baseUrl: string,
 	params?: P,
@@ -52,7 +52,7 @@ export function getOddsLive<P extends GetFootballOddsLiveParams | undefined = un
  * // response: [{ id: 1, name: "Match Winner" }, ...]
  * ```
  */
-export function getOddsLiveBets<P extends GetFootballOddsLiveBetsParams | undefined = undefined>(
+export function getOddsLiveBets<P extends GetFootballOddsLiveBetsParams = undefined>(
 	client: HttpClient,
 	baseUrl: string,
 	params?: P,
@@ -87,7 +87,7 @@ export function getOddsLiveBets<P extends GetFootballOddsLiveBetsParams | undefi
  * // response: [{ fixture: { id: 867946, ... }, bookmakers: [{ id: 6, name: "Bwin", bets: [...] }] }]
  * ```
  */
-export function getOdds<P extends GetFootballOddsParams | undefined = undefined>(
+export function getOdds<P extends GetFootballOddsParams = undefined>(
 	client: HttpClient,
 	baseUrl: string,
 	params?: P,
@@ -110,7 +110,7 @@ export function getOdds<P extends GetFootballOddsParams | undefined = undefined>
  * // response: [{ id: 6, name: "Bwin" }, ...]
  * ```
  */
-export function getOddsBookmakers<P extends GetFootballOddsBookmakersParams | undefined = undefined>(
+export function getOddsBookmakers<P extends GetFootballOddsBookmakersParams = undefined>(
 	client: HttpClient,
 	baseUrl: string,
 	params?: P,
@@ -137,7 +137,7 @@ export function getOddsBookmakers<P extends GetFootballOddsBookmakersParams | un
  * // response: [{ id: 1, name: "Match Winner" }, ...]
  * ```
  */
-export function getOddsBets<P extends GetFootballOddsBetsParams | undefined = undefined>(
+export function getOddsBets<P extends GetFootballOddsBetsParams = undefined>(
 	client: HttpClient,
 	baseUrl: string,
 	params?: P,

@@ -20,7 +20,7 @@ import type {
  * // response: [{ type: "Knee Injury", start: "2023-01-15", end: "2023-03-10" }]
  * ```
  */
-export function getSidelined<P extends GetFootballSidelinedParams | undefined = undefined>(
+export function getSidelined<P extends GetFootballSidelinedParams = undefined>(
 	client: HttpClient,
 	baseUrl: string,
 	params?: P,

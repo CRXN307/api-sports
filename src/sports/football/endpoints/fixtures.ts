@@ -81,7 +81,7 @@ export function getRounds<P extends GetFootballRoundsParams>(
  * // response: [{ fixture: { id: 867946, status: { short: "FT", long: "Match Finished", ... } }, ... }]
  * ```
  */
-export function getFixtures<P extends GetFootballFixturesParams | undefined = undefined>(
+export function getFixtures<P extends GetFootballFixturesParams = undefined>(
 	client: HttpClient,
 	baseUrl: string,
 	params?: P,

@@ -29,7 +29,7 @@ import type {
  * // response: [{ player: { id: 306, name: "...", type: "Missing Fixture", reason: "Knee Injury" }, team: { ... }, ... }]
  * ```
  */
-export function getInjuries<P extends GetFootballInjuriesParams | undefined = undefined>(
+export function getInjuries<P extends GetFootballInjuriesParams = undefined>(
 	client: HttpClient,
 	baseUrl: string,
 	params?: P,

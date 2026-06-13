@@ -20,7 +20,7 @@ import type {
  * // response: [{ league: "Premier League", country: "England", season: "2012/2013", place: "Winner" }]
  * ```
  */
-export function getTrophies<P extends GetFootballTrophiesParams | undefined = undefined>(
+export function getTrophies<P extends GetFootballTrophiesParams = undefined>(
 	client: HttpClient,
 	baseUrl: string,
 	params?: P,
